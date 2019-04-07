@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Seminario 1 - Visualizacion de Datos</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="index.html">Seminario 1 - Visualizacion de Datos</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+   
+
+  </nav>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-address-card"></i>
+          <span>Aspectos Generales</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="resumen.html">
+          <i class="fas fa-fw fa-clipboard-list"></i>
+          <span>Resumen</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="herramientas.html">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Herramientas</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="interpretacion.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Interpretacion</span></a>
+      </li>
+	        <li class="nav-item">
+        <a class="nav-link" href="codigo.html">
+          <i class="fas fa-fw fa-code"></i>
+          <span>Código</span></a>
+      </li>
+    </ul>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+
+
+        
+          <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-code"></i>
+            Codigo</div>
+          <div class="card-body">
+            <b>Google API Geocodificacion</b>: <br>Se crea columna adicional llamada "Pais", para obtener este valor se usa la API de Google (Geocodificacion en reversa) basado en la longitud y latitud, se crea macro en VBA para obtener este datos, tal como se muestra a continuacion : <br><br>
+			<pre><code>
+Option Explicit
+
+Function ValComma(s As String) As Double
+   Dim i As Long
+   Dim v As String
+   v = s
+   If InStr(v, ",") > 0 Then
+      Mid(v, InStr(v, ","), 1) = "."
+   End If
+   ValComma = Val(v)
+End Function
+
+
+Sub GetAddress()
+Dim Longitude As Double
+Dim Latitude As Variant
+Dim x As Long
+Dim ResultTypeFilter As String
+Dim GetAddress As String
+Dim url As String
+Dim lastrow As Long
+
+lastrow = Cells(Rows.Count, "A").End(xlUp).Row
+
+For x = 2 To lastrow
+         
+         Latitude = ValComma(Cells(x, 7).Value)
+         Longitude = ValComma(Cells(x, 8).Value)
+         
+         ResultTypeFilter = "country"
+    
+   
+    Dim ApiKey          As String
+    Dim Request         As New XMLHTTP30
+    Dim Results         As New DOMDocument30
+    Dim StatusNode      As IXMLDOMNode
+    Dim AddressNode     As IXMLDOMNode
+
+
+    ApiKey = "AIzaSyAStBm9kwOpqa_01wxnyRDN85aLfwjYFcU"
+    
+    If ApiKey = vbNullString Or ApiKey = "Your API Key goes here!" Then
+        GetAddress = "Invalid API Key"
+        Exit Sub
+    End If
+    
+    If Latitude < -90 Or Latitude > 90 Then
+        GetAddress = "Invalid Latitude value"
+        Exit Sub
+    End If
+
+    If Longitude < -180 Or Longitude > 180 Then
+        GetAddress = "Invalid Longitude value"
+        Exit Sub
+    End If
+      
+    'Generic error handling.
+    On Error GoTo errorHandler
+    
+   
+    If ResultTypeFilter = vbNullString Then
+        url = "https://maps.googleapis.com/maps/api/geocode/xml?" & "latlng=" & Cells(x, 7).Value & "," & Cells(x, 8).Value & "&key=" & ApiKey
+        Request.Open "GET", url, False
+    Else
+        url = "https://maps.googleapis.com/maps/api/geocode/xml?" & "latlng=" & Cells(x, 7).Value & "," & Cells(x, 8).Value & "&result_type=" & ResultTypeFilter & "&key=" & ApiKey
+        Request.Open "GET", url, False
+    End If
+    'Send the request to the Google server.
+    Request.send
+    
+    'Read the results from the request.
+    Results.LoadXML Request.responseText
+    
+    'Get the status node value.
+    Set StatusNode = Results.SelectSingleNode("//status")
+    
+    'Based on the status node result, proceed accordingly.
+    Select Case UCase(StatusNode.Text)
+    
+        Case "OK"   'The API request was successful. At least one result was returned.
+        
+            'Get the formatted address of the first result.
+            Set AddressNode = Results.SelectSingleNode("//result/formatted_address")
+            
+            'Return the address.
+            GetAddress = AddressNode.Text
+            Cells(x, 9).Value = GetAddress
+                    
+        Case "ZERO_RESULTS"   'The geocode was successful but returned no results.
+            GetAddress = "The address probably not exists"
+            
+        Case "OVER_QUERY_LIMIT" 'The requestor has exceeded the limit of 2500 request/day.
+            GetAddress = "Requestor has exceeded the server limit"
+            
+        Case "REQUEST_DENIED"   'The API did not complete the request.
+            GetAddress = "Server denied the request"
+            
+        Case "INVALID_REQUEST"  'The API request is empty or is malformed.
+            GetAddress = "Request was empty or malformed"
+        
+        Case "UNKNOWN_ERROR"    'Indicates that the request could not be processed due to a server error.
+            GetAddress = "Unknown error"
+        
+        Case Else
+            GetAddress = "Error"
+        
+    End Select
+
+    
+Next
+   
+
+errorHandler:
+    Set AddressNode = Nothing
+    Set StatusNode = Nothing
+    Set Results = Nothing
+    Set Request = Nothing
+    
+ 
+    
+End Sub
+</code></pre>
+
+<br><br>
+<b>Rango Años</b>: <br>Se crea columna adicional llamada "Rango Años", para obtener este valor se crea funcion en VBA para calcularlo, esto con el objetivo de visualizar la distribucion por rango de años de caida de meteoritos, tal como se muestra a continuacion : <br><br>
+			
+<pre><code>
+Option Explicit
+
+Sub GetRangeYears()
+Dim x As Long
+Dim Number As Integer
+Dim lastrow As Long
+
+lastrow = Cells(Rows.Count, "A").End(xlUp).Row
+
+For x = 2 To lastrow
+         
+    If IsNumeric(Cells(x, 5).Value) Then
+        Number = Cells(x, 5).Value
+             
+             
+        Select Case Number ' now integer is the target type
+            Case 1980 To 2019
+                Cells(x, 11).Value = "Entre 1980-2019"
+            Case 1940 To 1979
+                Cells(x, 11).Value = "Entre 1940-1979"
+            Case 1900 To 1939
+                Cells(x, 11).Value = "Entre 1900-1939"
+            Case 1700 To 1899
+                Cells(x, 11).Value = "Entre 1700-1899"
+            Case 1500 To 1699
+                Cells(x, 11).Value = "Entre 1500-1699"
+            Case 1000 To 1499
+                Cells(x, 11).Value = "Entre 1000-1499"
+            Case 0 To 999
+                Cells(x, 11).Value = "Entre 0-999"
+            Case -2500 To -1
+                Cells(x, 11).Value = "Entre -2500 y -1"
+            Case Else
+                Cells(x, 11).Value = "No Definido"
+        End Select
+   Else
+        Cells(x, 11).Value = "No Definido"
+   End If
+Next
+   
+    
+End Sub
+</code></pre>
+          </div>
+        </div>
+
+
+
+      </div>
+  
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Jorge Nishikuni - Master en Big Data y Data Science 2019</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+
+
+
+
+</body>
+
+</html>

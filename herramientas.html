@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Seminario 1 - Visualizacion de Datos</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="index.html">Seminario 1 - Visualizacion de Datos</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+   
+
+  </nav>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-address-card"></i>
+          <span>Aspectos Generales</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="resumen.html">
+          <i class="fas fa-fw fa-clipboard-list"></i>
+          <span>Resumen</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="herramientas.html">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Herramientas</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="interpretacion.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Interpretacion</span></a>
+      </li>
+	        <li class="nav-item">
+        <a class="nav-link" href="codigo.html">
+          <i class="fas fa-fw fa-code"></i>
+          <span>Código</span></a>
+      </li>
+    </ul>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+
+
+        
+          <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-area"></i>
+            Herramientas</div>
+          <div class="card-body">
+            <b>CartoDB</b>: <br>He usado CartoDB por ser una poderosa herramienta para crear mapas y visualizar los datos en ellas, es decir es una visualización basada en la nube que permite a los usuarios analizar, visualizar y construir aplicaciones con datos.<br><br> <u>Distribucion de Meteroritos alrededor del mundo</u><br><br>Visualizacion geografica, basada en la longitud y latitud de los meteoritos caidos en la tierra, se observa que han caido principamente en Norteamerica, Sur America cono sur, Europa y Asia Central, Africa sur y Oceania.<br>
+			<iframe width="100%" height="520" frameborder="0" src="https://tokuji.carto.com/builder/356a0025-255b-4177-b406-1650565067ad/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe><br>
+			<b>Tableau Desktop</b>: <br>He usado Tableau en su version Desktop para poder visualizar la distribucion de los meteoritos por pais/tamaño en graficos de barras y tartas de una manera facil.<br><br>Para esta visualizacion he integrado un nuevo campo a los datos (Pais), el cual ha sido calculado por medio de geocodificacion de reversa de Google a partir de las coordenadas de latitud y longitud de cada meterito. Adicionalmente se ha adicionado un nuevo campo al dataset (Rango Tamaño) el cual distribuye por gramos los meteoritos en unos rangos para una mejor visualizacion.<br>Para la visualizacion de estas graficas se ha publicado en tableau online y se ha compartido el enlace para ser interactivo.<br><br>
+			<u>Top 15 paises con mayor distribucion de Meteoritos caidos son:</u><br><br>
+			<script type='text/javascript' src='https://us-east-1.online.tableau.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1366px; height: 850px;'><object class='tableauViz' width='1366' height='850' style='display:none;'><param name='host_url' value='https%3A%2F%2Fus-east-1.online.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='&#47;t&#47;jorgenishikuniprojects' /><param name='name' value='meteoritos&#47;Top15Paisesmayorcantidadmeteoritoscaidos' /><param name='tabs' value='yes' /><param name='toolbar' value='yes' /><param name='showAppBanner' value='false' /><param name='filter' value='iframeSizedToWindow=true' /></object></div>
+			<br><br>Lo cual indica que existe una distribucion bastante desigual entre el primer lugar (Antartida) y los demas lugares.
+			<br><br><u>Distribucion de meteoritos por tamaño:</u><br><br>
+			<script type='text/javascript' src='https://us-east-1.online.tableau.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1366px; height: 850px;'><object class='tableauViz' width='1366' height='850' style='display:none;'><param name='host_url' value='https%3A%2F%2Fus-east-1.online.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='&#47;t&#47;jorgenishikuniprojects' /><param name='name' value='meteoritos&#47;DistribuciondeMeteoritosporTamao' /><param name='tabs' value='yes' /><param name='toolbar' value='yes' /><param name='showAppBanner' value='false' /><param name='filter' value='iframeSizedToWindow=true' /></object></div>
+			<br>Se observa que la mayoria de meteoritos caidos en la tierra corresponden entre el tamaño de 1 a 25 gramos<br><br>
+	    	<u>Distribucion de Meteoritos por tamaño SOLO en Antartida (mayor concentracion)</u><br><br>
+			<script type='text/javascript' src='https://us-east-1.online.tableau.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1366px; height: 850px;'><object class='tableauViz' width='1366' height='850' style='display:none;'><param name='host_url' value='https%3A%2F%2Fus-east-1.online.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='&#47;t&#47;jorgenishikuniprojects' /><param name='name' value='meteoritos&#47;DistribuciondemeteoritosportamaoAntartida' /><param name='tabs' value='yes' /><param name='toolbar' value='yes' /><param name='showAppBanner' value='false' /><param name='filter' value='iframeSizedToWindow=true' /></object></div>
+			<br>Se observa que la mayoria de meteoritos caidos en la Antartida corresponden entre el tamaño de 1 a 25 gramos, con una distribucion equitativa entre el resto de tamaños<br><br>
+			<u>Distribucion de Meteoritos por tamaño en los siguientes 4 paises con mayor concentracion</u><br><br>
+			<script type='text/javascript' src='https://us-east-1.online.tableau.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1366px; height: 850px;'><object class='tableauViz' width='1366' height='850' style='display:none;'><param name='host_url' value='https%3A%2F%2Fus-east-1.online.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='&#47;t&#47;jorgenishikuniprojects' /><param name='name' value='meteoritos&#47;DistribuciondemeteoritosportamaoNOAntartida' /><param name='tabs' value='yes' /><param name='toolbar' value='yes' /><param name='showAppBanner' value='false' /><param name='filter' value='iframeSizedToWindow=true' /></object></div>
+			<br>A continuacion he integrado en un dashboard las 4 graficas anteriores.<br><br>
+			<script type='text/javascript' src='https://us-east-1.online.tableau.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1000px; height: 850px;'><object class='tableauViz' width='1000' height='850' style='display:none;'><param name='host_url' value='https%3A%2F%2Fus-east-1.online.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='&#47;t&#47;jorgenishikuniprojects' /><param name='name' value='meteoritos&#47;DashboardMeteoritos' /><param name='tabs' value='yes' /><param name='toolbar' value='yes' /><param name='showAppBanner' value='false' /><param name='filter' value='iframeSizedToWindow=true' /></object></div>
+			<br><br><b>Google Sheet</b>: <br>
+			<br><br><u>Distribucion en porcentaje de meteoritos por rango de años:</u><br><br>
+			<iframe width="793.5" height="490.64621" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTBkxIf_JDOwzGS13lFfbDcw4qtEcDhfWF9s138T6KmIHJu5n0wqe13JNIs5bg4-O-ZYPAly_egMjac/pubchart?oid=832087180&amp;format=interactive"></iframe>
+			<br>Se observa que la mayoria de meteoritos han caido/encontrado entre 1980 y 2019 (75%) por rango de años.
+			<br><br>Ahora veremos la distribucion real en porcentaje de los que han caido y los que se han encontrado por rango de años.
+			<br><br><iframe width="855.016" height="499.92111" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTBkxIf_JDOwzGS13lFfbDcw4qtEcDhfWF9s138T6KmIHJu5n0wqe13JNIs5bg4-O-ZYPAly_egMjac/pubchart?oid=1979776510&amp;format=interactive"></iframe>
+		    <br><br><u>Relación meteoritos caídos/encontrados desde 1980:</u><br><br>
+			<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTBkxIf_JDOwzGS13lFfbDcw4qtEcDhfWF9s138T6KmIHJu5n0wqe13JNIs5bg4-O-ZYPAly_egMjac/pubchart?oid=1636849630&amp;format=interactive"></iframe>
+			<br>Se observa en estas 4 decadas que la relacion de los meteoritos encontrados han sido mayor que los caidos.
+		  </div>
+        </div>
+
+
+
+      </div>
+  
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Jorge Nishikuni - Master en Big Data y Data Science 2019</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+
+
+
+
+</body>
+
+</html>
